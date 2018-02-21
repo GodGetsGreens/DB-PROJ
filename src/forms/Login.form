@@ -26,7 +26,9 @@
       </component>
       <component id="7090d" class="javax.swing.JLabel" binding="lbUsername">
         <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="38" height="16"/>
+          </grid>
         </constraints>
         <properties>
           <text value="Username:"/>
@@ -34,10 +36,20 @@
       </component>
       <component id="ac3c" class="javax.swing.JLabel" binding="lbPassword">
         <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="38" height="16"/>
+          </grid>
         </constraints>
         <properties>
           <text value="Password:"/>
+        </properties>
+      </component>
+      <component id="1d5fe" class="javax.swing.JButton" binding="create_user">
+        <constraints>
+          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Create User"/>
         </properties>
       </component>
       <component id="b11e4" class="javax.swing.JButton" binding="loginButton" default-binding="true">
@@ -46,14 +58,6 @@
         </constraints>
         <properties>
           <text value="Login"/>
-        </properties>
-      </component>
-      <component id="1d5fe" class="javax.swing.JButton" binding="register">
-        <constraints>
-          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Register"/>
         </properties>
       </component>
     </children>
