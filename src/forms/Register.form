@@ -40,7 +40,7 @@
         </constraints>
         <properties/>
       </component>
-      <component id="40452" class="javax.swing.JTextField" binding="new_pass">
+      <component id="3406" class="javax.swing.JPasswordField" binding="new_pass">
         <constraints>
           <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
             <preferred-size width="189" height="24"/>
@@ -96,7 +96,7 @@
           <text value="Confirm Password:"/>
         </properties>
       </component>
-      <component id="a4f84" class="javax.swing.JTextField" binding="new_pass_conf">
+      <component id="92b75" class="javax.swing.JPasswordField" binding="new_pass_conf">
         <constraints>
           <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="0" indent="0" use-parent-layout="false">
             <preferred-size width="189" height="24"/>

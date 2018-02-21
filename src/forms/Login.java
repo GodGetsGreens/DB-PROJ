@@ -10,7 +10,7 @@ import java.io.*;
 public class Login {
     private JPanel panelLogin;
     private JTextField userField;
-    private JTextField passField;
+    private JPasswordField passField;
     private JLabel lbUsername;
     private JLabel lbPassword;
     private JButton loginButton;
@@ -22,7 +22,7 @@ public class Login {
                 super.mouseClicked(e);
                 if(userField.getText().equals(""))
                     JOptionPane.showMessageDialog(null, "Please enter a username");
-                else if(passField.getText().equals(""))
+                else if(passField.getPassword().toString().equals(""))
                     JOptionPane.showMessageDialog(null, "Please enter password");
                 else {
                     try{
@@ -32,12 +32,12 @@ public class Login {
                         boolean exists = false;
                         while(userInfo != null){
                             String[] user = userInfo.split(delim);
-                            if(userField.getText().equals(user[0]) && passField.getText().equals(user[1])){
+                            if(userField.getText().equals(user[0]) && String.valueOf(passField.getPassword()).equals(user[1])){
                                 JOptionPane.showMessageDialog(null, "Login Successful!");
                                 exists = true;
                                 break;
                             }
-                            else if(userField.getText().equals(user[0]) && !passField.getText().equals(user[1])){
+                            else if(userField.getText().equals(user[0]) && !String.valueOf(passField.getPassword()).equals(user[1])){
                                 JOptionPane.showMessageDialog(null, "Invalid password!");
                                 exists = true;
                                 break;
@@ -58,47 +58,17 @@ public class Login {
                 }
             }
         });
+
         create_user.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if(userField.getText().equals(""))
-                    JOptionPane.showMessageDialog(null, "Please enter a username");
-                else if(passField.getText().equals(""))
-                    JOptionPane.showMessageDialog(null, "Please enter password");
-                else {
-                    try {
-                        BufferedReader fread = new BufferedReader(new FileReader(new File("/Users/godgetsgreens/Documents/Database Design/Projects/Project4/DB-PROJ/src/forms/users.txt")));
-                        String delim = "[,]";
-                        boolean exists = false;
-                        String userInfo = fread.readLine();
-                        while(userInfo != null && !exists){
-                            String[] user = userInfo.split(delim);
-                            if(userField.getText().equals(user[0])){
-                                JOptionPane.showMessageDialog(null, "Username Taken!");
-                                exists = true;
-                            }
-                            userInfo = fread.readLine();
-                        }
-                        fread.close();
-                        if(!exists) {
-                            BufferedWriter fwrite = new BufferedWriter(new FileWriter(new File("/Users/godgetsgreens/Documents/Database Design/Projects/Project4/DB-PROJ/src/forms/users.txt")));
-                            fwrite.write(userField.getText() + "," + passField.getText());
-                            fwrite.newLine();
-                            fwrite.close();
-                        }
-                    }
-                    catch(FileNotFoundException e1){
-                        System.out.println(e1);
-                    }
-                    catch(IOException e2){
-                        System.out.println(e2);
-                    }
-
-                }
-
+                JFrame rframe = new JFrame("New User Registration");
+                rframe.setContentPane(new Register().registerPanel);
+                rframe.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+                rframe.pack();
+                rframe.setVisible(true);
             }
         });
-
     }
 
     public static void main(String[] args) {
