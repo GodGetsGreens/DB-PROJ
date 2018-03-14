@@ -5,11 +5,10 @@ public class Main {
 
     public static void main(String[] args) {
 
+        User current = new User();
         Login newLogin = new Login();
-        User currentUser = new User();
-        if (newLogin.getValid()) {
-            currentUser.setUserName(newLogin.getUsername());
-        }
+        current.setUserName(newLogin.getUsername());
+
     }
 
 };

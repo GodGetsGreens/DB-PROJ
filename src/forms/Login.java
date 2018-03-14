@@ -43,7 +43,7 @@ public class Login {
                 String p = passField.getText().trim();
                 isValid = ConnectionManager.validateUser(u,p);
                 if(isValid) {
-                    CustDashboard newDash = new CustDashboard();
+                    CustDashboard newDash = new CustDashboard(ConnectionManager.getName(u));
                     frame.setVisible(false);
                 }
             }

@@ -1,5 +1,7 @@
 package connection;
 
+import com.sun.codemodel.internal.JOp;
+
 import javax.swing.*;
 import java.sql.*;
 
@@ -55,6 +57,29 @@ public class ConnectionManager {
 
 
 
+    }
+
+    /**
+     * getName makes a connection to the database, and using a username, returns the first name of the user who has the
+     * username in question
+     * @param username - The username of the customer in question
+     * @return - Either returns the first name of the customer, or an empty string if the database connection is unsuccessful
+     */
+    public static String getName(String username){
+        getConnection();
+        try{
+            String sql = "select u_fname from users where u_name = '"+ username +"'";
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+            rs.next();
+            String name = rs.getString("u_fname");
+            st.close();
+            return name;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+        return "";
     }
 
     /**
@@ -145,6 +170,30 @@ public class ConnectionManager {
             st.close();
             con.setAutoCommit(true);
         }
+    }
+
+    /**
+     * getAccountNumber takes in a username and queries the database to return the account number associated with that username
+     *
+     * @param userName - The username of the customer for who the account number is sought
+     * @return - Returns
+     */
+    public static String getAccountNumber(String userName){
+        getConnection();
+        try{
+            String sql = Queries.getAccountNumber(userName);
+            con.setAutoCommit(false);
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+            rs.next();
+            String account = rs.getString("u_accountnum");
+            st.close();
+            return account;
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e.toString());
+        }
+        return "";
     }
 
 }
