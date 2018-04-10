@@ -69,4 +69,16 @@ public class Queries {
         return "select cb_bill from current_bills where cb_account = '"+accountNumber+"'";
     }
 
+    public static String getUserPhone(String accountNumber){
+        return "select ui_phone from user_information where ui_account = '"+accountNumber+"'";
+    }
+
+    public static String getUserAddress(String accountNumber){
+        return "select ui_serviceaddress from user_information where ui_account = '"+accountNumber+"'";
+    }
+
+    public static String getUserEmail(String accountNumber){
+        return "select ui_email from user_information where ui_account = '"+accountNumber+"'";
+    }
+
 }

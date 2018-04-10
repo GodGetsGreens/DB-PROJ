@@ -196,6 +196,13 @@ public class ConnectionManager {
         return "";
     }
 
+    /**
+     * getCurrentBill takes a users account number as the single argument and queries the current_bills database
+     * table and returns the users current bill balance
+     *
+     * @param accountNumber
+     * @return The current bill balance or an empty string if no balance exists
+     */
     public static String getCurrentBill(String accountNumber){
         getConnection();
         try{
@@ -213,6 +220,83 @@ public class ConnectionManager {
         catch(Exception e){
             JOptionPane.showMessageDialog(null,e.toString());
         }
+        return "";
+    }
+
+    /**
+     * getUserPhone takes a users account number and queries the user_information database table and returns the
+     * phone number associated with that account number.
+     *
+     * @param accountNumber
+     * @return The phone number for the user in question
+     */
+    public static String getUserPhone(String accountNumber){
+        getConnection();
+        try{
+            String sql = Queries.getUserPhone(accountNumber);
+            con.setAutoCommit(false);
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+            rs.next();
+            String phone = rs.getString("ui_phone");
+            st.close();
+            return phone;
+        }
+        catch (Exception e){
+            JOptionPane.showMessageDialog(null,e.toString());
+        }
+
+        return "";
+    }
+
+    /**
+     * getUserEmail takes a users account number and queries the user_information database table and returns the
+     * email address associated with that account number
+     *
+     * @param accountNumber
+     * @return The users email address
+     */
+    public static String getUserEmail(String accountNumber){
+        getConnection();
+        try{
+            String sql = Queries.getUserEmail(accountNumber);
+            con.setAutoCommit(false);
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+            rs.next();
+            String email = rs.getString("ui_email");
+            st.close();
+            return email;
+        }
+        catch (Exception e){
+            JOptionPane.showMessageDialog(null, e.toString());
+        }
+
+        return "";
+    }
+
+    /**
+     * getUserAddress takes a users account number and queries the user_information database table and returns the
+     * service address for the associated account
+     * @param accountNumber
+     * @return The accounts service address
+     */
+    public static String getUserAddress(String accountNumber){
+        getConnection();
+        try{
+            String sql = Queries.getUserAddress(accountNumber);
+            con.setAutoCommit(false);
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+            rs.next();
+            String address = rs.getString("ui_serviceaddress");
+            st.close();
+            return address;
+        }
+        catch (Exception e){
+            JOptionPane.showMessageDialog(null,e.toString());
+        }
+
         return "";
     }
 

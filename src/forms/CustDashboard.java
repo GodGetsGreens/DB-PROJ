@@ -53,7 +53,7 @@ public class CustDashboard {
         viewProfile.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                UserAccount uAc = new UserAccount(userName);
+                UserAccount uAc = new UserAccount(userName,account);
                 dashFrame.dispose();
             }
         });
