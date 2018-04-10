@@ -56,7 +56,17 @@ public class Queries {
      * @return - The query that will be passed to the database, which will retrieve the customer account number
      */
     public static String getAccountNumber(String user){
-        return "select u_accountnum from users having u_name = '" + user + "'";
+        return "select u_accountnum from users where u_name = '" + user + "'";
+    }
+
+//    public static String addBill(String account, String bill, String duedate, String paid, String late){
+//        String sql = "insert into current_bills(cb_account,cb_bill,cb_duedate,cb_paid,cb_late) values" +
+//                "('"+account+"'"+",'"+Float.parseFloat(bill)+",'"+duedate+",'"+Integer.valueOf(paid)+",'"+Integer.valueOf(late)+"')";
+//        return sql;
+//    }
+
+    public static String getCurrentBill(String accountNumber){
+        return "select cb_bill from current_bills where cb_account = '"+accountNumber+"'";
     }
 
 }

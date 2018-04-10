@@ -10,7 +10,7 @@ import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 
 public class Register {
-    protected JPanel registerPanel;
+    public JPanel registerPanel;
     private JTextField new_fname;
     private JTextField new_lname;
     private JTextField new_username;
@@ -25,6 +25,11 @@ public class Register {
     private JLabel account;
     private JTextField new_account;
     private JButton user_register;
+    private JButton loginReturn;
+
+    public JPanel getRegisterPanel(){
+        return registerPanel;
+    }
 
     /**
      * The Register constructor creates the new JFrame for registering users, as well as contains the function for the
@@ -33,15 +38,11 @@ public class Register {
      */
     public Register() {
 
-
-        /*
-        The new JFrame is created
-         */
-        final JFrame new_user = new JFrame("New User Registration");
-        new_user.setContentPane(registerPanel);
-        new_user.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-        new_user.pack();
-        new_user.setVisible(true);
+        final JFrame regFrame = new JFrame();
+        regFrame.setContentPane(registerPanel);
+        regFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        regFrame.pack();
+        regFrame.setVisible(true);
 
 
         /*
@@ -107,13 +108,28 @@ public class Register {
                             ConnectionManager.insertUser(Queries.addUser(new_username.getText().trim(), String.valueOf(new_pass.getPassword()).trim(),
                                     new_email.getText().trim(), new_fname.getText().trim(),
                                     new_lname.getText().trim(), new_account.getText().trim()));
+                                    regFrame.dispose();
+                                    Login.newFrame();
                         }
                         catch(SQLException s){
                             JOptionPane.showMessageDialog(null,s.toString());
                         }
-                        new_user.setVisible(false); //if the registration goes through, hide the registration form
                     }
                 }
+            }
+        });
+        loginReturn.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                new_username.setText("");
+                new_account.setText("");
+                new_email.setText("");
+                new_pass.setText("");
+                new_pass_conf.setText("");
+                new_lname.setText("");
+                new_fname.setText("");
+                regFrame.dispose();
+                Login.newFrame();
             }
         });
     }

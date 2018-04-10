@@ -1,13 +1,15 @@
+//import forms.EnergyApp;
 import forms.Login;
 import user.User;
+import connection.ConnectionManager;
+import java.io.*;
+//import java.nio.file.Files;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        User current = new User();
-        Login newLogin = new Login();
-        current.setUserName(newLogin.getUsername());
+        Login user = new Login();
 
     }
 

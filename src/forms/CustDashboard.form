@@ -41,7 +41,7 @@
             <properties>
               <horizontalAlignment value="0"/>
               <horizontalTextPosition value="0"/>
-              <text value="This is your dashoard! Here, you can pay your upcoming bill, &#10;view your previous payments as well as view your profile."/>
+              <text value="This is your dashoard! Here you can pay your upcoming bill, view your previous payments as well as view your account."/>
             </properties>
           </component>
           <grid id="44e6a" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">

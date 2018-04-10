@@ -9,7 +9,7 @@ public class ConnectionManager {
     private static String url = "jdbc:mysql://localhost:3306/proj4";
     private static String driver = "com.mysql.jdbc.Driver";
     private static String username = "root";
-    private static String password = "Zeppelin6894!";
+    private static String password = "Riley6894!";
     private static Connection con;
     private static Statement st;
     private static ResultSet rs;
@@ -95,14 +95,14 @@ public class ConnectionManager {
             st = con.createStatement();
             rs = st.executeQuery(sql);
 
-            if(rs.getFetchSize() > 0){
-                return true;
+            if(!rs.next()){
+                return false;
             }
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null, e.toString());
         }
-        return false;
+        return true;
     }
 
     /**
@@ -118,13 +118,13 @@ public class ConnectionManager {
             st = con.createStatement();
             rs = st.executeQuery(sql);
 
-            if(rs.getFetchSize() > 0)
-                    return true;
+            if(!rs.next())
+                return false;
         }
         catch (Exception e){
             JOptionPane.showMessageDialog(null, e.toString());
         }
-        return false;
+        return true;
     }
 
     /**
@@ -139,13 +139,13 @@ public class ConnectionManager {
             st = con.createStatement();
             rs = st.executeQuery(sql);
 
-            if(rs.getFetchSize() > 0)
-                return true;
+            if(!rs.next())
+                return false;
         }
         catch (Exception e){
             JOptionPane.showMessageDialog(null,e.toString());
         }
-        return false;
+        return true;
     }
 
     /**
@@ -192,6 +192,26 @@ public class ConnectionManager {
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null, e.toString());
+        }
+        return "";
+    }
+
+    public static String getCurrentBill(String accountNumber){
+        getConnection();
+        try{
+            String sql = Queries.getCurrentBill(accountNumber);
+            con.setAutoCommit(false);
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+            if(rs.next()){
+                String bill = rs.getString("cb_bill");
+                st.close();
+                return bill;
+            }
+            st.close();
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,e.toString());
         }
         return "";
     }
