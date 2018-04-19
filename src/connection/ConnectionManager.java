@@ -1,9 +1,13 @@
 package connection;
 
 import com.sun.codemodel.internal.JOp;
+import com.sun.xml.internal.messaging.saaj.packaging.mime.util.QEncoderStream;
 
 import javax.swing.*;
 import java.sql.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Vector;
 
 public class ConnectionManager {
     private static String url = "jdbc:mysql://localhost:3306/proj4";
@@ -15,7 +19,10 @@ public class ConnectionManager {
     private static ResultSet rs;
 
 
-
+    /**
+     * Constructor that connects to the database and returns the connection if it exists
+     * @return - The connection to the database
+     */
     public static Connection getConnection() {
         try {
             Class.forName(driver);
@@ -28,6 +35,12 @@ public class ConnectionManager {
         return con;
     }
 
+    /**
+     * validateUser takes in a username and password and checks to see if the password is associated with the username
+     * @param userName - The username the customer entered
+     * @param pass - The password the customer entered
+     * @return - The boolean value for whether or not the user entered the correct information or not
+     */
     public static boolean validateUser(String userName, String pass) {
         getConnection();
         try {
@@ -115,11 +128,20 @@ public class ConnectionManager {
         getConnection();
         try{
             String sql = Queries.emailValid(email);
+            con.setAutoCommit(false);
             st = con.createStatement();
             rs = st.executeQuery(sql);
 
-            if(!rs.next())
+            if(!rs.next()) {
+                rs.close();
+                st.close();
+                con.close();
                 return false;
+            }
+
+            rs.close();
+            st.close();
+            con.close();
         }
         catch (Exception e){
             JOptionPane.showMessageDialog(null, e.toString());
@@ -258,15 +280,22 @@ public class ConnectionManager {
      */
     public static String getUserEmail(String accountNumber){
         getConnection();
+        String temp;
         try{
             String sql = Queries.getUserEmail(accountNumber);
             con.setAutoCommit(false);
             st = con.createStatement();
             rs = st.executeQuery(sql);
-            rs.next();
-            String email = rs.getString("ui_email");
+            if(rs.next()){
+                temp = rs.getString("ui_email");
+                rs.close();
+                st.close();
+                con.close();
+                return temp;
+            }
+            rs.close();
             st.close();
-            return email;
+            con.close();
         }
         catch (Exception e){
             JOptionPane.showMessageDialog(null, e.toString());
@@ -298,6 +327,246 @@ public class ConnectionManager {
         }
 
         return "";
+    }
+
+    public static String getUserName(String accountNumber){
+        getConnection();
+        String uname = "";
+        try{
+            String sql = Queries.getUserName(accountNumber);
+            con.setAutoCommit(false);
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+            rs.next();
+            uname = rs.getString("u_name");
+            st.close();
+            con.close();
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,e.toString());
+        }
+
+        return uname;
+    }
+
+    public static void setUserPhone(String newPhone, String account){
+        if(newPhone.equals(""))
+            return;
+        getConnection();
+        try{
+            String sql = Queries.updatePhone(newPhone,account);
+            con.setAutoCommit(false);
+            st = con.createStatement();
+            st.executeUpdate(sql);
+            con.commit();
+            st.close();
+            con.close();
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,e.toString());
+        }
+    }
+
+    public static void setUserName(String newName, String account){
+        if(newName.equals(""))
+            return;
+        getConnection();
+        try{
+            if(!ConnectionManager.userNameExists(newName)){
+                String sql1 = Queries.updateUsersUName(newName,account);
+//                String sql2 = Queries.updateUserInfoUName(newName,account);
+
+                con.setAutoCommit(false);
+                st = con.createStatement();
+                st.executeUpdate(sql1);
+                con.commit();
+//                st.executeUpdate(sql2);
+//                con.commit();
+                st.close();
+                con.close();
+            }
+            else{
+                con.close();
+            }
+        }
+        catch (Exception e){
+            JOptionPane.showMessageDialog(null,e.toString());
+        }
+    }
+
+    public static void setUserEmail(String newEmail, String account){
+        if(newEmail.equals(""))
+            return;
+        getConnection();
+        try{
+            if(!ConnectionManager.emailExists(newEmail)){
+                String sql1 = Queries.updateUsersUEmail(newEmail,account);
+                String sql2 = Queries.updateUserInfoUEmail(newEmail,account);
+
+                con.setAutoCommit(false);
+                st = con.createStatement();
+                st.executeUpdate(sql1);
+                con.commit();
+                st.executeUpdate(sql2);
+                con.commit();
+                st.close();
+                con.close();
+            }
+            else{
+                con.close();
+            }
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,e.toString());
+        }
+    }
+
+    public static void setUserPassword(String newPass, String account){
+        if(newPass.equals(""))
+            return;
+        getConnection();
+        try{
+            String sql = Queries.updateUserPassword(newPass,account);
+            con.setAutoCommit(false);
+            st = con.createStatement();
+            st.executeUpdate(sql);
+            con.commit();
+            st.close();
+            con.close();
+        }
+        catch (Exception e){
+            JOptionPane.showMessageDialog(null,e.toString());
+        }
+    }
+
+    public static boolean validateEmployee(String eid, String pass){
+        try{
+            getConnection();
+            String sql = Queries.employeeExists(eid,pass);
+            con.setAutoCommit(false);
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+            if(rs.next()){
+                rs.close();
+                st.close();
+                con.close();
+                return true;
+            }
+            rs.close();
+            st.close();
+            con.close();
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null,e.toString());
+        }
+        return false;
+    }
+
+    public static String getEmployeeName(String id){
+        String name = "Employee";
+        getConnection();
+        try{
+            String sql = Queries.getEmployeeName(id);
+            con.setAutoCommit(false);
+            st = con.createStatement();
+            rs = st.executeQuery(sql);
+            if(rs.next()) {
+                name = rs.getString(1);
+            }
+            rs.close();
+            st.close();
+            con.close();
+        }
+        catch (Exception e){
+            JOptionPane.showMessageDialog(null,e.toString());
+        }
+        return name;
+    }
+
+    public static boolean createNewCustomer(String account, String email, String placeholderPhone, String serviceAddress){
+        getConnection();
+        try{
+
+            String sql = Queries.createCustomer(account,serviceAddress,email,placeholderPhone);
+            String sql1 = Queries.getUserEmail(account);
+            String sql2 = Queries.getUserAccount(account);
+
+
+            con.setAutoCommit(false);
+            st = con.createStatement();
+
+            rs = st.executeQuery(sql1);
+            if(rs.next()){
+                JOptionPane.showMessageDialog(null,"Email is already in use!");
+                rs.close();
+                st.close();
+                con.close();
+                return false;
+            }
+            rs.close();
+
+            rs = st.executeQuery(sql2);
+            if(rs.next()){
+                JOptionPane.showMessageDialog(null,"Account is already in use!");
+                rs.close();
+                st.close();
+                con.close();
+                return false;
+            }
+            rs.close();
+
+
+            st.executeUpdate(sql);
+            con.commit();
+            st.close();
+            con.close();
+
+        }
+        catch (Exception e){
+            JOptionPane.showMessageDialog(null,e.toString());
+        }
+
+        return true;
+    }
+
+    public static void markLateBills(){
+
+        java.sql.Date currentDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+
+        getConnection();
+        try{
+
+            String get = Queries.getBills();
+
+            con.setAutoCommit(false);
+            st = con.createStatement();
+            rs = st.executeQuery(get);
+
+            Vector accounts = new Vector();
+
+            while(rs.next()){
+                if(currentDate.after(java.sql.Date.valueOf(rs.getString("cb_duedate")))){
+                    if(rs.getString("cb_late").equals("0")) {
+                        accounts.addElement(rs.getString("cb_account"));
+                    }
+                }
+            }
+
+            for(int i = 0; i < accounts.size(); ++i){
+                st.executeUpdate(Queries.updateLate(String.valueOf(accounts.get(i))));
+            }
+
+            con.commit();
+
+            rs.close();
+            st.close();
+            con.close();
+
+        }
+        catch (Exception e){
+            JOptionPane.showMessageDialog(null,e.toString());
+        }
+
     }
 
 }

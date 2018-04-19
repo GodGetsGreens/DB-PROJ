@@ -19,14 +19,17 @@ public class UserAccount {
     private JButton returnToDash;
     private JButton changeAccountInfo;
     private JLabel accountGreeting;
+    private static JFrame uAccountFrame;
+
 
     public UserAccount(String name, String account){
         customerAccount = account;
         customerUserName = name;
-        final JFrame uAccountFrame = new JFrame();
+        uAccountFrame = new JFrame();
         uAccountFrame.setContentPane(panel1);
         uAccountFrame.pack();
         uAccountFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        uAccountFrame.setTitle("DB Energy Solutions");
         uAccountFrame.setVisible(true);
 
         userName.setText("Username: " + customerUserName);
@@ -43,5 +46,26 @@ public class UserAccount {
                 CustDashboard.getDash();
             }
         });
+        changeAccountInfo.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                EditUserAccount edit = new EditUserAccount(customerAccount);
+                uAccountFrame.dispose();
+            }
+        });
+    }
+
+    public void update(){
+        customerUserName = ConnectionManager.getUserName(customerAccount);
+        userName.setText("Username: " + customerUserName);
+        userAccount.setText("Account: " + customerAccount);
+        userPhone.setText("Phone Number: " + ConnectionManager.getUserPhone(customerAccount));
+        userAddress.setText("Service Address: " + ConnectionManager.getUserAddress(customerAccount));
+        userEmail.setText("Email: " + ConnectionManager.getUserEmail(customerAccount));
+
+    }
+
+    public static void getFrame(){
+        uAccountFrame.setVisible(true);
     }
 }

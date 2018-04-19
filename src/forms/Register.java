@@ -1,31 +1,28 @@
 package forms;
 
+import com.sun.codemodel.internal.JOp;
 import connection.ConnectionManager;
 import connection.Queries;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 
 public class Register {
     public JPanel registerPanel;
+    private JTextArea pleaseUseTheEmailTextArea;
+    private JTextField new_email;
+    private JTextField new_phone;
+    private JPasswordField new_passconf;
     private JTextField new_fname;
     private JTextField new_lname;
     private JTextField new_username;
-    private JTextField new_email;
     private JPasswordField new_pass;
-    private JLabel f_name;
-    private JLabel l_name;
-    private JLabel u_name;
-    private JPasswordField new_pass_conf;
-    private JLabel u_pass;
-    private JLabel confirm_pass;
-    private JLabel account;
     private JTextField new_account;
     private JButton user_register;
     private JButton loginReturn;
+    private static JFrame regFrame;
 
     public JPanel getRegisterPanel(){
         return registerPanel;
@@ -38,9 +35,10 @@ public class Register {
      */
     public Register() {
 
-        final JFrame regFrame = new JFrame();
+        regFrame = new JFrame();
         regFrame.setContentPane(registerPanel);
         regFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        regFrame.setTitle("DB Energy Solutions");
         regFrame.pack();
         regFrame.setVisible(true);
 
@@ -53,83 +51,63 @@ public class Register {
         If all error checks are passed, then the information for the new user is added to the user table, taking advantage
         of the Queries functions to format the data to proper SQL
          */
-        user_register.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                boolean add = true;
-                if(new_fname.getText().equals("")) {
-                    JOptionPane.showMessageDialog(null, "Must enter first name");
-                    add = false;
-                }
-                else if(new_lname.getText().equals("")) {
-                    JOptionPane.showMessageDialog(null, "Must enter last name");
-                    add = false;
-                }
-                else if(new_username.getText().equals("")) {
-                    JOptionPane.showMessageDialog(null, "Must enter username");
-                    add = false;
-                }
-                else if(ConnectionManager.userNameExists(new_username.getText().trim())){ // check to make sure the userName doesnt exist
-                    new_username.setText("Username already exists!");
-                    add = false;
-                }
-                else if(new_email.getText().equals("")) {
-                    JOptionPane.showMessageDialog(null, "Must enter email");
-                    add = false;
-                }
-                else if(ConnectionManager.emailExists(new_email.getText().trim())){ // check to make sure that the email doesnt exist
-                    new_email.setText("Email already in use!");
-                    add = false;
-                }
-                else if(String.valueOf(new_pass.getPassword()).equals("")) {
-                    JOptionPane.showMessageDialog(null, "Must enter password");
-                    add = false;
-                }
-                else if(String.valueOf(new_pass_conf.getPassword()).equals("")) {
-                    JOptionPane.showMessageDialog(null, "Must confirm password");
-                    add = false;
-                }
-                else if(new_account.getText().equals("")) {
-                    JOptionPane.showMessageDialog(null, "Must enter account number");
-                    add = false;
-                }
-                else if(ConnectionManager.accountExists(new_account.getText().trim())){ // check to make sure that the accountnum doesnt exist
-                    new_account.setText("Account number already exists!");
-                    add = false;
-                }
-                else if(!String.valueOf(new_pass.getPassword()).equals(String.valueOf(new_pass_conf.getPassword()))) {
-                    JOptionPane.showMessageDialog(null, "Passwords do not match!");
-                    add = false;
-                }
-                else {
-                    if(add) {
-                        JOptionPane.showMessageDialog(null, "Registration Successful!");
-                        try {
-                            ConnectionManager.insertUser(Queries.addUser(new_username.getText().trim(), String.valueOf(new_pass.getPassword()).trim(),
-                                    new_email.getText().trim(), new_fname.getText().trim(),
-                                    new_lname.getText().trim(), new_account.getText().trim()));
-                                    regFrame.dispose();
-                                    Login.newFrame();
-                        }
-                        catch(SQLException s){
-                            JOptionPane.showMessageDialog(null,s.toString());
-                        }
-                    }
-                }
-            }
-        });
+
         loginReturn.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                new_username.setText("");
-                new_account.setText("");
-                new_email.setText("");
-                new_pass.setText("");
-                new_pass_conf.setText("");
-                new_lname.setText("");
-                new_fname.setText("");
                 regFrame.dispose();
                 Login.newFrame();
+            }
+        });
+
+        user_register.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+
+                if(new_fname.getText().trim().equals("") || new_lname.getText().trim().equals("") || String.valueOf(new_pass.getPassword()).equals("")
+                        || String.valueOf(new_passconf.getPassword()).equals("") || new_email.getText().trim().equals("")
+                        || new_account.getText().trim().equals("") || new_username.getText().trim().equals("") ||
+                        new_username.getText().trim().equals("") || new_phone.getText().trim().equals("")){
+                    JOptionPane.showMessageDialog(regFrame,"Please fill out all fields!");
+                }
+
+                else{
+
+                    if(!String.valueOf(new_pass.getPassword()).equals(String.valueOf(new_passconf.getPassword()))){
+                        JOptionPane.showMessageDialog(regFrame,"Passwords must match!");
+                        return;
+                    }
+                    else if(ConnectionManager.emailExists(new_email.getText().trim()) || ConnectionManager.getUserEmail(new_account.getText().trim()).equals("")){
+                        JOptionPane.showMessageDialog(regFrame,"Email is already in use or account number does not exist!");
+                        return;
+                    }
+                    else if(ConnectionManager.userNameExists(new_username.getText().trim())){
+                        JOptionPane.showMessageDialog(regFrame,"Username is already in use; Please choose another!");
+                        return;
+                    }
+                    else if(!ConnectionManager.getUserEmail(new_account.getText().trim()).equals(new_email.getText().trim())){
+                        JOptionPane.showMessageDialog(regFrame,"Be sure to use the same email account you used to request service!");
+                        return;
+                    }
+                    else if(ConnectionManager.accountExists(new_account.getText().trim())){
+                        JOptionPane.showMessageDialog(regFrame,"This account number is already in use! Double check you are entering the correct account number.");
+                        return;
+                    }
+                    else{
+                        try{
+                            ConnectionManager.insertUser(Queries.addUser(new_username.getText().trim(),String.valueOf(new_pass.getPassword()),
+                                    new_email.getText().trim(),new_fname.getText().trim(),new_lname.getText().trim(),new_account.getText().trim()));
+                            ConnectionManager.setUserPhone(new_phone.getText().trim(),new_account.getText().trim());
+                            regFrame.dispose();
+                            Login.newFrame();
+                        }
+                        catch (Exception a){
+                            JOptionPane.showMessageDialog(regFrame,a.toString());
+                        }
+                    }
+
+                }
+
             }
         });
     }

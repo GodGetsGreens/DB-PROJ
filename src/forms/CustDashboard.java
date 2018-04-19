@@ -15,15 +15,12 @@ public class CustDashboard {
     private String account;
     private JButton currentBill;
     private JLabel greeting;
-    private JButton previousPayment;
     private JButton viewProfile;
     private JButton logout;
     private JLabel dash_information;
+    private JTextPane databaseEnergySolutionsWorksTextPane;
+    private JButton accountHistory;
     private static JFrame dashFrame = new JFrame("Dashboard");
-
-    public JPanel getCustDashboard(){
-        return dashboard;
-    }
 
     public void setGreeting(String name){
         greeting.setText("Welcome, " + name + "!");
@@ -37,11 +34,14 @@ public class CustDashboard {
 
         dashFrame.setContentPane(dashboard);
         dashFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        dashFrame.setTitle("DB Energy Solutions");
         dashFrame.pack();
         dashFrame.setVisible(true);
 
         userName = uname;
         account = act;
+
+        setGreeting(ConnectionManager.getName(userName));
 
         logout.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {

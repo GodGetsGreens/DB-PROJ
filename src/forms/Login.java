@@ -8,12 +8,14 @@ import java.awt.event.MouseEvent;
 public class Login {
     private static JFrame newLog;
     private JPanel panelLogin;
+    private JButton employeeLogin;
+    private JTextPane loginHeader;
     private JTextField userField;
     private JPasswordField passField;
-    private JLabel lbUsername;
-    private JLabel lbPassword;
     private JButton loginButton;
     private JButton create_user;
+    private JLabel userNameLabel;
+    private JLabel passwordLabel;
     private boolean isValid = false; // added variable to keep track of when to set Login form invisible
 //    private boolean isRegister = false;
 
@@ -25,6 +27,13 @@ public class Login {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 Register newReg = new Register();
+                newLog.dispose();
+            }
+        });
+        employeeLogin.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                EmployeeLogin newEmployee = new EmployeeLogin();
                 newLog.dispose();
             }
         });
@@ -43,6 +52,7 @@ public class Login {
         newLog = new JFrame();
         newLog.setContentPane(panelLogin);
         newLog.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        newLog.setTitle("DB Energy Solutions");
         newLog.pack();
         newLog.setVisible(true);
 
@@ -81,10 +91,6 @@ public class Login {
          */
 
     }
-
-    public boolean getValid(){ return isValid; }
-
-//    public boolean getRegister() {return isRegister;}
 
     public String getUsername(){
         return userField.getText().trim();

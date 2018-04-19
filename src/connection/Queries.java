@@ -65,20 +65,94 @@ public class Queries {
 //        return sql;
 //    }
 
+    /**
+     * Function that returns the sql query to get the current bill associated with the given accountnumber
+     * @param accountNumber - The account number of the user whose current bill is sought
+     * @return - The SQL query that will be passed to the database, which will retrieve the current bill if any
+     */
     public static String getCurrentBill(String accountNumber){
         return "select cb_bill from current_bills where cb_account = '"+accountNumber+"'";
     }
 
+    /**
+     * Function that returns the SQL query to get the phone number associated with the given account number
+     * @param accountNumber - The account number of the user whose phone number is sought
+     * @return - The SQL query that will be passed to the database, which will retrieve the users phone number
+     */
     public static String getUserPhone(String accountNumber){
         return "select ui_phone from user_information where ui_account = '"+accountNumber+"'";
     }
 
+    /**
+     * Function that returns the SQL query to get the service address associated with the given account number
+     * @param accountNumber - The account number of the user whose service address is sought
+     * @return - The SQL query that will be passed to the database, which will retrieve the users service address
+     */
     public static String getUserAddress(String accountNumber){
         return "select ui_serviceaddress from user_information where ui_account = '"+accountNumber+"'";
     }
 
+    /**
+     * Function that returns the SQL query to get the email associated with the given account number
+     * @param accountNumber - The account number of the user whose email is sought
+     * @return - The SQL query thta will be passed to the database, which will retrieve the users email
+     */
     public static String getUserEmail(String accountNumber){
         return "select ui_email from user_information where ui_account = '"+accountNumber+"'";
+    }
+
+    /**
+     * Function that returns an SQL query to get the username associated with the given account number
+     * @param accountNumber - The account number of the customer whose username is sought
+     * @return - The SQL query that will be passed to the database, which will retrieve the customers username
+     */
+    public static String getUserName(String accountNumber){
+        return "select u_name from users where u_accountnum = '" + accountNumber +"'";
+    }
+
+    public static String updatePhone(String newPhone, String account){
+        return "update user_information set ui_phone = '"+newPhone+"' where ui_account = '"+account+"'";
+    }
+
+    public static String updateUsersUName(String newName, String account){
+        return "update users set u_name = '"+newName+"' where u_accountnum = '"+account+"'";
+    }
+
+    public static String updateUsersUEmail(String newEmail, String account){
+        return "update users set u_email = '"+newEmail+"' where u_accountnum = '"+account+"'";
+    }
+
+    public static String updateUserInfoUEmail(String newEmail, String account){
+        return "update user_information set ui_email = '"+newEmail+"' where ui_account = '"+account+"'";
+    }
+
+    public static String updateUserPassword(String newPass, String account){
+        return "update users set u_pass = '"+newPass+"' where u_accountnum = '"+account+"'";
+    }
+
+    public static String employeeExists(String eid, String pass){
+        return "select e_fname from employee where e_id = '"+eid+"' and e_pass = '"+pass+"'";
+    }
+
+    public static String getEmployeeName(String id){
+        return "select e_fname from employee where e_id = '"+id+"'";
+    }
+
+    public static String createCustomer(String account, String serviceAddress, String email, String phonePlaceHolder){
+        return "insert into user_information(ui_account, ui_email, ui_phone, ui_serviceaddress)" +
+                " values('"+account+"'"+",'"+email+"'"+",'"+phonePlaceHolder+"'"+",'"+serviceAddress+"')";
+    }
+
+    public static String getUserAccount(String account){
+        return "select ui_account from user_information where ui_account = '"+account+"'";
+    }
+
+    public static String getBills(){
+        return "select * from current_bills";
+    }
+
+    public static String updateLate(String account){
+        return "update current_bills set cb_late = 1 where cb_account = '"+account+"'";
     }
 
 }
