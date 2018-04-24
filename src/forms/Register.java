@@ -1,3 +1,9 @@
+/**
+ * Register.java contains all source and logic for the Register form
+ *
+ * Author: Riley Wells
+ */
+
 package forms;
 
 import com.sun.codemodel.internal.JOp;
@@ -9,7 +15,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 
+
 public class Register {
+
     public JPanel registerPanel;
     private JTextArea pleaseUseTheEmailTextArea;
     private JTextField new_email;
@@ -30,8 +38,7 @@ public class Register {
 
     /**
      * The Register constructor creates the new JFrame for registering users, as well as contains the function for the
-     * user_register button!
-     *
+     * user_register button
      */
     public Register() {
 
@@ -42,6 +49,14 @@ public class Register {
         regFrame.pack();
         regFrame.setVisible(true);
 
+        // loginReturn button closes the Register form and re-displays the Login form
+        loginReturn.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                regFrame.dispose();
+                Login.newFrame();
+            }
+        });
 
         /*
         The user_register listener first declares a boolean and sets it to true. All of the textfields are then
@@ -51,15 +66,6 @@ public class Register {
         If all error checks are passed, then the information for the new user is added to the user table, taking advantage
         of the Queries functions to format the data to proper SQL
          */
-
-        loginReturn.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                regFrame.dispose();
-                Login.newFrame();
-            }
-        });
-
         user_register.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
@@ -110,9 +116,5 @@ public class Register {
 
             }
         });
-    }
-
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
     }
 }

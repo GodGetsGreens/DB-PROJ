@@ -1,3 +1,9 @@
+/**
+ * EditUserAccount.java contains all the source code for the EditUserAccount form
+ *
+ * Author: Riley Wells
+ */
+
 package forms;
 
 import connection.ConnectionManager;
@@ -6,6 +12,7 @@ import javax.swing.*;
 import java.awt.event.*;
 
 public class EditUserAccount {
+
     private JPanel panel1;
     private JLabel editUserTitle;
     private JButton submitChanges;
@@ -28,7 +35,12 @@ public class EditUserAccount {
     private boolean passwordChange;
     private boolean passwordChangeConfirm;
 
+    /**
+     * Constructor for EditUserAccount object that takes in the customers account number
+     * @param account - The customer's account number
+     */
     public EditUserAccount(String account){
+
         final JFrame editUser = new JFrame();
         editUser.setContentPane(panel1);
         editUser.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -36,6 +48,7 @@ public class EditUserAccount {
         editUser.pack();
         editUser.setVisible(true);
 
+        // the boolean values below are used to check if the user has entered anything into the respective text fields
         uact = account;
         nameChange = false;
         phoneChange = false;
@@ -43,6 +56,9 @@ public class EditUserAccount {
         passwordChange = false;
         passwordChangeConfirm = false;
 
+        /*
+        submitChanges button
+         */
         submitChanges.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);

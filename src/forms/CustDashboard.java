@@ -58,17 +58,66 @@ public class CustDashboard {
             }
         });
 
-        String curBill = ConnectionManager.getCurrentBill(account);
-        if(!"".equals(curBill)){
-            currentBill.setText("Current Bill - $"+curBill+" - Pay Now");
-        }
-        else{
-            currentBill.setText("No Current Bill");
-        }
+//        String curBill = ConnectionManager.getCurrentBill(account);
+//        ConnectionManager.updateBillLate(account);
+//        if(!"".equals(curBill)){
+//            if(!ConnectionManager.isBillPaid(account)) {
+//                if (ConnectionManager.isBillLate(account)) {
+//                    currentBill.setText("LATE - $" + curBill + " - Pay Now");
+//                } else {
+//                    currentBill.setText("Current Bill - $" + curBill + " - Pay Now");
+//                }
+//            }
+//            else{
+//                currentBill.setText("No Current Bill");
+//            }
+//        }
+//        else{
+//            currentBill.setText("No Current Bill");
+//        }
 
+        currentBill.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                dashFrame.dispose();
+                BillPayment newPayment = new BillPayment(account);
+            }
+        });
+
+        accountHistory.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                dashFrame.dispose();
+                AccountHistory customerHistory = new AccountHistory(account);
+            }
+        });
     }
 
+//    public void updateCurrentBillButton(){
+//
+//        String curBill = ConnectionManager.getCurrentBill(account);
+//        ConnectionManager.updateBillLate(account);
+//
+//        if(!"".equals(curBill)){
+//            if(!ConnectionManager.isBillPaid(account)) {
+//                if (ConnectionManager.isBillLate(account)) {
+//                    currentBill.setText("LATE - $" + curBill + " - Pay Now");
+//                } else {
+//                    currentBill.setText("Current Bill - $" + curBill + " - Pay Now");
+//                }
+//            }
+//            else{
+//                currentBill.setText("No Current Bill");
+//            }
+//        }
+//        else{
+//            currentBill.setText("No Current Bill");
+//        }
+//
+//    }
+
     public static void getDash(){
+
         dashFrame.setVisible(true);
     }
 

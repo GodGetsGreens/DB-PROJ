@@ -1,3 +1,9 @@
+/**
+ * Login.java contains all the source code for the Login form
+ *
+ * Authors: Riley Wells and Justin Bramel
+ */
+
 package forms;
 
 import connection.*;
@@ -5,7 +11,9 @@ import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+
 public class Login {
+
     private static JFrame newLog;
     private JPanel panelLogin;
     private JButton employeeLogin;
@@ -17,12 +25,16 @@ public class Login {
     private JLabel userNameLabel;
     private JLabel passwordLabel;
     private boolean isValid = false; // added variable to keep track of when to set Login form invisible
-//    private boolean isRegister = false;
 
+
+    /*
+    The Login constructor
+     */
     public Login() {
 
         frame();
 
+        // create user button pulls up the registration form
         create_user.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
@@ -30,6 +42,8 @@ public class Login {
                 newLog.dispose();
             }
         });
+
+        // employeeLogin button pulls up the login form for employees
         employeeLogin.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
@@ -37,10 +51,6 @@ public class Login {
                 newLog.dispose();
             }
         });
-    }
-
-    public JPanel getLoginPanel(){
-        return panelLogin;
     }
 
     /**
@@ -92,16 +102,15 @@ public class Login {
 
     }
 
-    public String getUsername(){
-        return userField.getText().trim();
-    }
+//    public String getUsername(){
+//        return userField.getText().trim();
+//    }
 
+
+    // newFrame is a static method used to re-display the login form after logging out, etc.
     public static void newFrame(){
 
         newLog.setVisible(true);
     }
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-    }
 }

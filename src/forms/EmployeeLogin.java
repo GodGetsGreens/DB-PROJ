@@ -1,3 +1,9 @@
+/**
+ * EmployeeLogin.java contains all the source code for the EmployeeLogin form
+ *
+ * Author: Riley Wells
+ */
+
 package forms;
 
 import connection.ConnectionManager;
@@ -7,6 +13,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class EmployeeLogin {
+
     private JLabel employeeLoginGreeting;
     private JTextField employeeIDField;
     private JPasswordField employeePassField;
@@ -17,6 +24,9 @@ public class EmployeeLogin {
     private static JFrame employeeLogFrame;
     private JPanel empLogPanel;
 
+    /**
+     * Constructor for the EmployeeLogin object
+     */
     public EmployeeLogin(){
 
         employeeLogFrame = new JFrame();
@@ -26,6 +36,7 @@ public class EmployeeLogin {
         employeeLogFrame.pack();
         employeeLogFrame.setVisible(true);
 
+        // signOut button closes the EmployeeLogin form and re-displays the Login form
         signOut.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
@@ -34,6 +45,10 @@ public class EmployeeLogin {
             }
         });
 
+        // employeeLogin button checks to see if the employee ID and password are valid and if so closes the EmployeeLogin form and
+        // displays a new EmployeeDashboard form.
+        //
+        // if the employee information is not validated then an error message is displayed
         employeeLogin.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
@@ -50,10 +65,7 @@ public class EmployeeLogin {
         });
     }
 
-//    public void setEmployeeLoginGreeting(String id){
-//        employeeLoginGreeting.setText(ConnectionManager.getEmployeeName(id));
-//    }
-
+    // static function used to re-display the EmployeeLogin form
     public static void getFrame(){
         employeeLogFrame.setVisible(true);
     }
