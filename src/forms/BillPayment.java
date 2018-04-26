@@ -1,3 +1,9 @@
+/**
+ * BillPayment.java contains all the source code for the BillPayment form
+ *
+ * Author: Riley Wells
+ */
+
 package forms;
 
 import connection.ConnectionManager;

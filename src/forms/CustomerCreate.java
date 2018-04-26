@@ -1,3 +1,9 @@
+/**
+ * CustomerCreate.java contains all source code for the CustomerCreate form
+ *
+ * Author: Riley Wells
+ */
+
 package forms;
 
 import connection.ConnectionManager;

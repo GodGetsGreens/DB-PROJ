@@ -1,3 +1,9 @@
+/**
+ * CustDashboard.java contains all the source code for the CustDashboard form
+ *
+ * Author: Riley Wells
+ */
+
 package forms;
 
 import javax.swing.*;

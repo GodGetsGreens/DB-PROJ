@@ -693,45 +693,6 @@ public class ConnectionManager {
 
     }
 
-//    public static void updateBillLate(String account){
-//
-//        java.sql.Date currentDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-//        String sql = Queries.getBillDueDate(account);
-//        getConnection();
-//
-//        try{
-//
-//            boolean isLate = false;
-//            con.setAutoCommit(false);
-//            st = con.createStatement();
-//            rs = st.executeQuery(sql);
-//
-//            if(rs.next()){
-//                if(currentDate.after(java.sql.Date.valueOf(rs.getString("cb_duedate")))){
-//                    if(currentDate.toString().equals(rs.getString("cb_duedate"))){
-//                        isLate = false;
-//                    }
-//                    else {
-//                        isLate = true;
-//                    }
-//                }
-//            }
-//
-//            rs.close();
-//            if(isLate) {
-//                st.executeUpdate(Queries.updateLate(account));
-//            }
-//            con.commit();
-//            st.close();
-//            con.close();
-//
-//        }
-//        catch (Exception e){
-//            JOptionPane.showMessageDialog(null,e.toString());
-//        }
-//
-//    }
-
     /**
      * getPaymentMethods takes in a customer account and returns a vector of all the payment options that are on file
      * for the given account

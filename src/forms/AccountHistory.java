@@ -1,3 +1,9 @@
+/**
+ * AccountHistory.java contains all the source code for the AccountHistory form
+ *
+ * Author: Riley Wells
+ */
+
 package forms;
 
 import connection.ConnectionManager;
